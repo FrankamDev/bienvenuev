@@ -1,0 +1,188 @@
+/* ==========================================================================
+   Wedding Details Section – Luxury & Elegant 2026
+   Adapted for React + GSAP + Framer Motion
+   ========================================================================== */
+
+/* ── Custom Properties (facile à modifier) ── */
+:root {
+  --color-bg:           #fdfbf7;     /* crème très doux / champagne clair */
+  --color-bg-soft:      #f9f5f0;
+  --color-cream:        #fffaf5;
+  --color-gold-light:   #d4c0a8;     /* champagne gold doux */
+  --color-gold:         #b89770;     /* or principal – proche de amber-700/amber-800 */
+  --color-gold-dark:    #9c7a55;
+  --color-text:         #2d1e12;     /* brun-noir chaud */
+  --color-text-light:   #4a3728;
+  --color-gray-soft:    #6b5e4f;
+  --color-amber-muted:  #c19a6b;     /* intermédiaire amber */
+
+  --shadow-gold-glow:   0 0 16px rgba(180, 140, 80, 0.35);
+  --shadow-soft:        0 10px 32px rgba(180, 140, 80, 0.09);
+
+  --transition-luxe:    all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Fonts – adapte selon tes imports Google Fonts */
+  --font-serif:    'Cormorant Garamond', 'Georgia', serif;
+  --font-editorial: 'Cormorant Garamond', serif;   /* tu utilises déjà */
+  --font-script:   'Great Vibes', 'Dancing Script', cursive;
+  --font-body:     'Lora', Georgia, serif;         /* pour les descriptions */
+}
+
+/* Reset minimal & base */
+.details-bg {
+  background: radial-gradient(
+    circle at 12% 8%,
+    var(--color-bg) 0%,
+    var(--color-bg-soft) 65%,
+    var(--color-cream) 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ligne verticale centrale animée par GSAP */
+.gold-path {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--color-gold-light) 8%,
+    var(--color-gold) 50%,
+    var(--color-gold-light) 92%,
+    transparent 100%
+  );
+  filter: drop-shadow(0 0 10px rgba(180, 140, 80, 0.4));
+  box-shadow: inset 0 0 20px rgba(180, 140, 80, 0.15);
+}
+
+/* Le point lumineux sur la ligne (pulse heart) */
+.w-2.h-2.bg-amber-600 {
+  background: var(--color-gold);
+  box-shadow:
+    0 0 0 0 rgba(180, 140, 80, 0.7),
+    var(--shadow-gold-glow);
+  animation: pulse-gold 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(180, 140, 80, 0.7); }
+  50%      { box-shadow: 0 0 0 12px rgba(180, 140, 80, 0); }
+}
+
+/* Titres */
+.luxury-title {
+  font-family: var(--font-script);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  text-shadow: 0 3px 12px rgba(45, 30, 18, 0.08);
+  position: relative;
+}
+
+.luxury-title::after {
+  content: "";
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background: var(--color-gold);
+  opacity: 0.55;
+  border-radius: 1px;
+  transition: var(--transition-luxe);
+}
+
+.luxury-title:hover::after {
+  width: 140px;
+  opacity: 0.85;
+}
+
+/* Petits titres supérieurs */
+.font-serif.text-amber-800.uppercase {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: 0.45em;
+  color: var(--color-gold-dark);
+  opacity: 0.7;
+}
+
+/* Titres des items */
+.font-editorial.text-2xl, .font-editorial.text-4xl {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  color: var(--color-text);
+}
+
+/* Texte descriptif */
+.font-lora.text-gray-500 {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--color-gray-soft);
+  line-height: 1.72;
+}
+
+/* Hover luxe sur chaque bloc */
+.group:hover {
+  transform: translateY(-6px);
+}
+
+.group:hover .w-5.h-5.text-amber-700\/50 {
+  color: var(--color-gold);
+  filter: drop-shadow(0 0 8px rgba(180, 140, 80, 0.5));
+  transition: color 0.5s ease, filter 0.5s ease;
+}
+
+/* Note finale romantique */
+.animate-pulse.text-amber-200 {
+  color: var(--color-gold-light);
+  filter: drop-shadow(0 0 10px rgba(212, 192, 168, 0.6));
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .details-bg {
+    padding-top: 6rem;
+    padding-bottom: 8rem;
+  }
+
+  .luxury-title {
+    font-size: 3.8rem !important; /* sm:text-8xl → mobile */
+  }
+
+  .font-editorial.text-4xl {
+    font-size: 1.8rem;
+  }
+
+  .space-y-24, .space-y-40 {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(-1.5rem * var(--tw-space-y-reverse));
+    margin-bottom: calc(-1.5rem * var(--tw-space-y-reverse));
+  }
+  .space-y-24 > :not([hidden]) ~ :not([hidden]),
+  .space-y-40 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 4rem;
+  }
+}
+
+/* Amélioration lisibilité + élégance globale */
+.leading-relaxed {
+  line-height: 1.75;
+}
+
+.tracking-\[0\.2em\] {
+  letter-spacing: 0.22em;
+}
+
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+.animate-twinkle { animation: twinkle 3s infinite ease-in-out; }
+.animate-twinkle.delay-500 { animation-delay: 0.5s; }
+.animate-pulse-slow { animation: pulse 12s infinite ease-in-out; }
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.08); }
+}

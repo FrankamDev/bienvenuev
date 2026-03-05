@@ -1,0 +1,27 @@
+/* Effet de grain cinématographique pour la nostalgie */
+.film-grain {
+  position: absolute;
+  inset: 0;
+  /* background-image: url("https://www.transparenttextures.com/patterns/stardust.png"); */
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Texte avec dégradé subtil pour la lisibilité sur image */
+.text-shadow-premium {
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Bordure interne élégante (Frame) */
+.inner-frame {
+  position: absolute;
+  inset: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  z-index: 10;
+}
+
+@media (max-width: 640px) {
+  .inner-frame { inset: 20px; }
+}

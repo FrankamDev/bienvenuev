@@ -1,0 +1,28 @@
+.countdown-container {
+  background: radial-gradient(circle at center, #ffffff 0%, #faf9f6 100%);
+}
+
+.digit-box {
+  position: relative;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(180, 140, 80, 0.2);
+  min-width: 80px;
+}
+
+@media (max-width: 640px) {
+  .digit-box { min-width: 65px; }
+}
+
+.gold-glow {
+  box-shadow: 0 10px 30px -10px rgba(180, 140, 80, 0.3);
+}
+
+.separator-dot {
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
