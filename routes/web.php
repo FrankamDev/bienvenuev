@@ -3,31 +3,42 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GiftController;
+use Inertia\Inertia;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
-// Page d'accueil → affiche les cadeaux
+Route::post('/quick-register-and-reserve', [RegisteredUserController::class, 'quickRegisterAndReserve'])
+    ->name('quick.register.reserve');
+/*
+|--------------------------------------------------------------------------
+| Page d'accueil
+|--------------------------------------------------------------------------
+*/
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Route pour réserver un cadeau (appel AJAX depuis la home)
+/*
+|--------------------------------------------------------------------------
+| Réservation (utilisateur connecté)
+|--------------------------------------------------------------------------
+*/
 Route::post('/gifts/{id}/reserve', [GiftController::class, 'reserve'])
     ->name('gifts.reserve')
-    ->middleware('auth');  // ← recommandé : seul un utilisateur connecté peut réserver
+    ->middleware('auth');
 
-// Optionnel : page admin (garde-la si tu en as besoin)
-Route::get('/admin/gifts', [GiftController::class, 'admin'])
-    ->name('admin.gifts')
-    ->middleware('admin');
+/*
+|--------------------------------------------------------------------------
+| Dashboard → ADMIN UNIQUEMENT
+|--------------------------------------------------------------------------
+*/
+Route::get('/dashboard', function () {
 
-// Tu peux commenter ou supprimer l'ancienne route /gifts si tu n'en veux plus
-// Route::get('/gifts', ...);
+    $user = auth()->user();
 
-// Autres routes existantes...
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
-});
-Route::middleware('admin')->prefix('admin/gifts')->group(function () {
-    Route::get('/', [GiftController::class, 'adminIndex'])->name('admin.gifts.index');
-    Route::post('/', [GiftController::class, 'adminStore'])->name('admin.gifts.store');
-    Route::put('/{id}', [GiftController::class, 'adminUpdate'])->name('admin.gifts.update');
-    Route::delete('/{id}', [GiftController::class, 'adminDestroy'])->name('admin.gifts.destroy');
-});
+    if (!$user || $user->role !== 'admin') {
+        abort(403, 'Accès refusé.');
+    }
+
+    return Inertia::render('Dashboard');
+
+})->middleware('auth')->name('dashboard');
+
 require __DIR__.'/settings.php';

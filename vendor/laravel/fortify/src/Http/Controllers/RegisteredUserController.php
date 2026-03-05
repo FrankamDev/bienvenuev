@@ -25,7 +25,7 @@ class RegisteredUserController extends Controller
      * Create a new controller instance.
      *
      * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
-     * @return void
+     * @return void 
      */
     public function __construct(StatefulGuard $guard)
     {
