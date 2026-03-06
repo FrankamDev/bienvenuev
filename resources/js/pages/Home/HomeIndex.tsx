@@ -37,9 +37,9 @@ const HomeIndex = () => {
         <Programme />
         <Details />
         <ListGift gifts={gifts}/>
+        <PartySection/>
         <Colors/>
         <RSVP />
-        <PartySection/>
         <CouplePhoto />
       </motion.div>
 
