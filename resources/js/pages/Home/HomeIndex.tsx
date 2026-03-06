@@ -13,6 +13,7 @@ import RSVP from './RSVP';
 import CouplePhoto from './CouplePhoto';
 import { usePage } from '@inertiajs/react';
 import ListGift from '../Gifts/ListGift';
+import PartySection from './PartySection';
 
 const HomeIndex = () => {
     const {gifts} = usePage().props;
@@ -38,6 +39,7 @@ const HomeIndex = () => {
         <ListGift gifts={gifts}/>
         <Colors/>
         <RSVP />
+        <PartySection/>
         <CouplePhoto />
       </motion.div>
 

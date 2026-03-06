@@ -87,6 +87,11 @@
 //   );
 // }
 
+
+
+
+
+
 import { useForm, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -102,37 +107,45 @@ export default function Home({ gifts: initialGifts, auth }) {
     });
     // const {auth} = usePage().props;
 
-  const handleReserve = (gift) => {
-   
-      // déjà connecté → réserve via l'URL existante
-      router.post(`/gifts/${gift.id}/reserve`, {}, {
-        preserveState: true,
-        onSuccess: () => {
-          setGifts(prev => prev.filter(g => g.id !== gift.id));
-        },
-        onError: (err) => {
-          console.error('Erreur réservation', err);
-        },
-      });
-   
-  };
+//   const handleReserve = (gift) => {
 
+//       router.post(`/gifts/${gift.id}/reserve`, {}, {
+//         preserveState: true,
+//         onSuccess: () => {
+//           setGifts(prev => prev.filter(g => g.id !== gift.id));
+//         },
+//         onError: (err) => {
+//           console.error('Erreur réservation', err);
+//         },
+//       });
+
+//   };
+const handleReserve = (gift) => {
+  setSelectedGiftId(gift.id);
+  setData('gift_id', gift.id);
+};
   const handleQuickRegister = (e) => {
     e.preventDefault();
     // POST vers l'URL en dur (comme défini dans routes/web.php)
-    post('/quick-reserve', {
-      preserveState: true,
-      onSuccess: () => {
-        setGifts(prev => prev.filter(g => g.id !== selectedGiftId));
-        setSelectedGiftId(null);
-        reset();
-      },
-      onError: (err) => {
-        console.error('Erreur inscription + réservation', err);
-      },
-    });
+   post('/people', {
+       preserveState: true,
+  onSuccess: () => {
+      setGifts(prev => prev.filter(g => g.id !== selectedGiftId));
+      setSelectedGiftId(null);
+    reset();
+  }
+});
   };
 
+
+//    post('/people', {
+//       onSuccess: () => {
+//         reset();
+//       },
+//       onError: (err) => {
+//         console.error('Erreur inscription + réservation', err);
+//       },
+//     });
   return (
     <div className="max-w-5xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-8 text-center">Cadeaux disponibles</h1>
@@ -156,86 +169,64 @@ export default function Home({ gifts: initialGifts, auth }) {
         ))}
       </div>
 
-      {/* Formulaire inscription rapide – apparaît seulement quand besoin */}
-    
-        <div className="mt-12 p-8 bg-gray-50 border rounded-xl max-w-lg mx-auto">
-          <h2 className="text-2xl font-semibold mb-6 text-center">
-            Inscrivez-vous pour réserver
-          </h2>
 
-          <form onSubmit={handleQuickRegister} className="space-y-5">
-            <div>
-              <input
-                type="text"
-                placeholder="Votre nom"
-                value={data.name}
-                onChange={e => setData('name', e.target.value)}
-                className="w-full px-4 py-3 border rounded"
-                required
-              />
-              {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
-            </div>
-
-            <div>
-              <input
-                type="email"
-                placeholder="Votre email"
-                value={data.email}
-                onChange={e => setData('email', e.target.value)}
-                className="w-full px-4 py-3 border rounded"
-                required
-              />
-              {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
-            </div>
-
-            <div>
-              <input
-                type="password"
-                placeholder="Mot de passe"
-                value={data.password}
-                onChange={e => setData('password', e.target.value)}
-                className="w-full px-4 py-3 border rounded"
-                required
-              />
-              {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
-            </div>
-
-            <div>
-              <input
-                type="password"
-                placeholder="Confirmation"
-                value={data.password_confirmation}
-                onChange={e => setData('password_confirmation', e.target.value)}
-                className="w-full px-4 py-3 border rounded"
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={processing}
-              className="w-full bg-green-600 text-white py-3 rounded font-medium hover:bg-green-700 disabled:opacity-60"
-            >
-              {processing ? 'Inscription en cours...' : 'S’inscrire & réserver'}
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setSelectedGiftId(null)}
-              className="w-full text-gray-600 mt-3 underline"
-            >
-              Annuler
-            </button>
-          </form>
-        </div>
-      
-
-      {/* Message de succès simple en bas d'écran */}
       {usePage().props.success && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-green-100 border border-green-400 text-green-800 px-8 py-4 rounded-lg shadow-lg max-w-xl text-center z-50">
-          
+
         </div>
       )}
+
+
+      {selectedGiftId && (
+  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+    <div className="bg-white p-8 rounded-xl w-full max-w-md">
+
+      <h2 className="text-2xl font-semibold mb-6 text-center">
+        Réserver ce cadeau
+      </h2>
+
+      <form onSubmit={handleQuickRegister} className="space-y-4">
+
+        <input
+          type="text"
+          placeholder="Votre nom"
+          value={data.name}
+          onChange={e => setData('name', e.target.value)}
+          className="w-full px-4 py-3 border rounded"
+          required
+        />
+
+        <input
+          type="email"
+          placeholder="Votre email"
+          value={data.email}
+          onChange={e => setData('email', e.target.value)}
+          className="w-full px-4 py-3 border rounded"
+          required
+        />
+
+        <button
+          type="submit"
+          className="w-full bg-green-600 text-white py-3 rounded"
+        >
+          Réserver
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setSelectedGiftId(null)}
+          className="w-full text-gray-500 underline"
+        >
+          Annuler
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+)}
     </div>
   );
 }

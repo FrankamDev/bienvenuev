@@ -73,7 +73,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class GiftController extends Controller {
-    // Pour frontend : Liste cadeaux disponibles
+    
    public function index()
 {
     $gifts = Gift::where('reserved', false)->get();
@@ -87,12 +87,11 @@ class GiftController extends Controller {
         'premiers' => $gifts->take(3)->toArray()
     ]);
 
-    return Inertia::render('Gifts/ListGifts', [
+    return Inertia::render('Gifts/ListGift', [
         'gifts' => $gifts
     ]);
 }
 
-    // Pour sélection cadeau
     public function reserve(Request $request, $id) {
         $gift = Gift::findOrFail($id);
         if ($gift->reserved) {

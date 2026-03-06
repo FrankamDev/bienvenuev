@@ -20,4 +20,8 @@ class Gift extends Model
     {
         return $this->belongsTo(User::class, 'reserved_by');
     }
+    public function person()
+{
+    return $this->belongsTo(Person::class);
+}
 }

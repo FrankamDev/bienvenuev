@@ -7,12 +7,17 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GiftController;
-
+use App\Http\Controllers\PersonController;
 use App\Models\Gift;
 use App\Models\User;
 
 use Inertia\Inertia;
 
+use App\Models\Person;
+
+
+
+Route::post("/people", [PersonController::class,'store']);
 /*
 |--------------------------------------------------------------------------
 | Page d'accueil
