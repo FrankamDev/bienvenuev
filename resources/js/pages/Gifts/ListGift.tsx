@@ -85,7 +85,7 @@ export default function Home({ gifts: initialGifts }) {
                   <button
                     onClick={() => handleReserve(gift)}
                     disabled={processing}
-                    className="w-full py-3 px-6 bg-slate-900 text-white rounded-xl font-medium hover:bg-slate-700 transition-colors active:scale-95 disabled:opacity-50"
+                    className="w-full py-3 px-6 bg-slate-900 text-white rounded-[7px] font-medium hover:bg-slate-700 transition-colors active:scale-95 disabled:opacity-50"
                   >
                     Réserver
                   </button>
