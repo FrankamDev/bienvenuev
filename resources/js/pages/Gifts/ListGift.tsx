@@ -128,7 +128,7 @@ export default function Home({ gifts: initialGifts }) {
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input
                       type="text"
-                      placeholder="Votre nom complet"
+                      placeholder="Ex: Frank Kamgang"
                       value={data.name}
                       onChange={e => setData('name', e.target.value)}
                       className="w-full pl-12 pr-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-amber-200 transition-all"
@@ -140,7 +140,7 @@ export default function Home({ gifts: initialGifts }) {
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input
                       type="email"
-                      placeholder="Votre adresse email"
+                      placeholder="Ex: frankamdev@gmail.com"
                       value={data.email}
                       onChange={e => setData('email', e.target.value)}
                       className="w-full pl-12 pr-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-amber-200 transition-all"
