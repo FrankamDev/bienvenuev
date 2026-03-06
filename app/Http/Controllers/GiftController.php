@@ -73,7 +73,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class GiftController extends Controller {
-    
+
    public function index()
 {
     $gifts = Gift::where('reserved', false)->get();
@@ -107,4 +107,32 @@ class GiftController extends Controller {
         $reservedGifts = Gift::where('reserved', true)->with('user')->get(); // Assumant relation user
         return Inertia::render('Admin/Gifts', ['reservedGifts' => $reservedGifts]);
     }
+
+//     public function update(Request $request, Gift $gift)
+// {
+//     $validated = $request->validate([
+//         'name' => 'required|string|max:255',
+//     ]);
+
+//     $gift->update($validated);
+
+//     return back();
+// }
+
+public function update(Request $request, Gift $gift)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+    ]);
+
+    $gift->update($validated);
+
+    return back();
+}
+
+public function gift(){
+    return Inertia::render('Dashboard', [
+    'gifts' => Gift::with('people')->latest()->get()
+]);
+}
 }

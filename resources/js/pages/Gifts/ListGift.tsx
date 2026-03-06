@@ -127,7 +127,7 @@ const handleReserve = (gift) => {
   const handleQuickRegister = (e) => {
     e.preventDefault();
     // POST vers l'URL en dur (comme défini dans routes/web.php)
-   post('/people', {
+   post('/person', {
        preserveState: true,
   onSuccess: () => {
       setGifts(prev => prev.filter(g => g.id !== selectedGiftId));

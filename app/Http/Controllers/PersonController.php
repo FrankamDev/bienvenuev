@@ -1,28 +1,5 @@
 <?php
 
-// namespace App\Http\Controllers;
-
-// use App\Models\Gift;
-// use App\Models\Person;
-// use Illuminate\Http\Request;
-
-// class PersonController extends Controller
-// {
-//     public function store(Request $request)
-// {
-//     $validated = $request->validate([
-//         'name' => 'required|string|max:255',
-//         'email' => 'required|email|unique:people,email',
-//     ]);
-
-//     Person::create($validated);
-
-//     return back()->with('success', 'Personne enregistrée.');
-// }
-// }
-
-
-
 namespace App\Http\Controllers;
 
 use App\Models\Gift;
@@ -55,6 +32,7 @@ class PersonController extends Controller
         ]);
 
         // Lier le cadeau à la personne
+        $gift = Gift::findOrFail($request->gift_id);
         $gift->update([
             'reserved' => true,
             'person_id' => $person->id,

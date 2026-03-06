@@ -16,8 +16,8 @@ use Inertia\Inertia;
 use App\Models\Person;
 
 
-
-Route::post("/people", [PersonController::class,'store']);
+Route::get('/dashbord', [GiftController::class, 'gift']);
+Route::post("/person", [PersonController::class,'store']);
 /*
 |--------------------------------------------------------------------------
 | Page d'accueil
@@ -108,9 +108,26 @@ Route::get('/dashboard', function () {
         abort(403, 'Accès refusé.');
     }
 
-    return Inertia::render('dashboard');
+    return Inertia::render('Dashboard');
 
 })->middleware('auth')->name('dashboard');
 
+
+
+
+Route::middleware(['auth', 'admin'])->group(function () {
+
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard', [
+            'gifts' => \App\Models\Gift::with('person')->latest()->get()
+        ]);
+    })->name('dashboard');
+
+    Route::put('/gifts/{gift}', [GiftController::class, 'update'])
+        ->name('gifts.update');
+
+    Route::delete('/gifts/{gift}', [GiftController::class, 'destroy'])
+        ->name('gifts.destroy');
+});
 
 require __DIR__.'/settings.php';

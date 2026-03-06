@@ -10,7 +10,11 @@ class Gift extends Model
 {
     // use OptimisticLocking;
     use HasFactory;
-    protected $fillable = ['name', 'reserved', 'reserved_by', 'version'];
+    protected $fillable = ['name',
+    'reserved',
+    'reserved_by',
+    'person_id',
+    'version'];
 
     protected $casts = [
         'is_reserved' => 'boolean',

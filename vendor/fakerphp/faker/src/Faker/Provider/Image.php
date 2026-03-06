@@ -23,7 +23,7 @@ class Image extends Base
      */
     protected static $categories = [
         'abstract', 'animals', 'business', 'cats', 'city', 'food', 'nightlife',
-        'fashion', 'people', 'nature', 'sports', 'technics', 'transport',
+        'fashion', 'person', 'nature', 'sports', 'technics', 'transport',
     ];
 
     /**
