@@ -16,7 +16,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function Dashboard(props: any) {
 
     const { auth, gifts = [] } = usePage().props as any;
-// const { gifts } = usePage().props as any;
+
     const [editingGift, setEditingGift] = useState<any>(null);
     const [name, setName] = useState('');
 
@@ -25,20 +25,6 @@ export default function Dashboard(props: any) {
             preserveScroll: true,
         });
     };
-
-    // const handleUpdate = (e: any) => {
-    //     e.preventDefault();
-
-    //     router.put(`/gifts/${editingGift.id}`, {
-    //         name,
-    //     }, {
-    //         preserveScroll: true,
-    //         onSuccess: () => {
-    //             setEditingGift(null);
-    //         }
-    //     });
-    // };
-
 
     const handleUpdate = (e: any) => {
     e.preventDefault();
@@ -98,9 +84,9 @@ export default function Dashboard(props: any) {
                         <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 pt-4 md:pt-0">
                             {gift.reserved && (
                                 <div className="flex items-center gap-3 text-right">
-                                    <div className="hidden sm:block">
-                                        <p className="text-sm font-semibold text-slate-700">{gift.person?.name}</p>
-                                        <p className="text-xs text-slate-400">{gift.person?.email}</p>
+                                    <div className="">
+                                        <p className="text-sm font-semibold text-black">Par - <span className='text-[.9rem]'>{gift.person?.name}</span></p>
+                                        <p className="text-xs text-black">{gift.person?.email}</p>
                                     </div>
                                     <div className="w-8 h-8 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center">
                                         <User size={16} />
@@ -186,59 +172,9 @@ export default function Dashboard(props: any) {
     </div>
 
 
-
-            {/* <div className="space-y-4">
-                {gifts.map((gift: any) => (
-                    <div key={gift.id} className="p-4 border rounded bg-white">
-                        <p><strong>Nom :</strong> {gift.name}</p>
-                        <p><strong>Hauteur :</strong> {gift.height ?? 'N/A'}</p>
-                        <p><strong>Réservé :</strong> {gift.reserved ? 'Oui' : 'Non'}</p>
-                        <p>
-                            <strong>Par :</strong>{' '}
-                            {gift.person?.name ?? '—'}
-                            <br />
-                            {gift.person?.email ?? '—'}
-                        </p>
-
-
-                    </div>
-                ))}
-            </div>
-
-            {editingGift && (
-                <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-                    <div className="bg-white p-6 rounded w-96">
-                        <form onSubmit={handleUpdate} className="space-y-4">
-                            <input
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                className="w-full border p-2 rounded"
-                            />
-
-                            <div className="flex justify-between">
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 bg-green-600 text-white rounded"
-                                >
-                                    Sauvegarder
-                                </button>
-
-                                <button
-                                    type="button"
-                                    onClick={() => setEditingGift(null)}
-                                    className="px-4 py-2 bg-gray-400 text-white rounded"
-                                >
-                                    Annuler
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div> */}
-            )}
             <Gifts gifts={gifts}/>
 
-                    {/* <h2>je ne sais pas</h2> */}
+
         </AppLayout>
     );
 }

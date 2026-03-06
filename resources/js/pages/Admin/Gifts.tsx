@@ -158,9 +158,10 @@ export default function Gifts({ gifts }: { gifts: any }) {
 
                                 <button
                                     onClick={() => deleteGift(gift.id)}
-                                    className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all opacity-0 group-hover:opacity-100"
+                                    className="p-2 text-black hover:text-red-500 hover:bg-red-50 rounded-lg transition-all opacity-0 group-hover:opacity-100"
                                     title="Supprimer"
                                 >
+
                                     <Trash2 className="w-5 h-5" />
                                 </button>
                             </div>

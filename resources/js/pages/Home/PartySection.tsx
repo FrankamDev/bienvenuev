@@ -17,13 +17,13 @@ const PartySection: React.FC = () => {
       icon: <GlassWater className="w-6 h-6" />,
     },
     {
-      time: "20:30",
+      time: "22:30",
       title: "Dîner de Gala",
       description: "Un voyage culinaire pour célébrer notre union.",
       icon: <Utensils className="w-6 h-6" />,
     },
     {
-      time: "22:30",
+      time: "23:30",
       title: "Ouverture du Bal",
       description: "Préparez vos plus beaux pas de danse !",
       icon: <Music className="w-6 h-6" />,
