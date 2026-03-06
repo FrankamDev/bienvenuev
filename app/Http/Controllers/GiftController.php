@@ -108,16 +108,19 @@ class GiftController extends Controller {
         return Inertia::render('Admin/Gifts', ['reservedGifts' => $reservedGifts]);
     }
 
-//     public function update(Request $request, Gift $gift)
-// {
-//     $validated = $request->validate([
-//         'name' => 'required|string|max:255',
-//     ]);
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+    ]);
 
-//     $gift->update($validated);
+    Gift::create([
+        'name' => $validated['name'],
+        'reserved' => false,
+    ]);
 
-//     return back();
-// }
+    return back();
+}
 
 public function update(Request $request, Gift $gift)
 {
@@ -134,5 +137,11 @@ public function gift(){
     return Inertia::render('Dashboard', [
     'gifts' => Gift::with('people')->latest()->get()
 ]);
+}
+public function destroy(Gift $gift)
+{
+    $gift->delete();
+
+    return back();
 }
 }

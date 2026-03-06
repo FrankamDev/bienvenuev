@@ -130,4 +130,25 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->name('gifts.destroy');
 });
 
+
+
+
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+
+    Route::get('/gifts', function () {
+        return Inertia::render('Admin/Gifts', [
+            'gifts' => \App\Models\Gift::latest()->get()
+        ]);
+    })->name('admin.gifts');
+
+    Route::post('/gifts', [GiftController::class, 'store'])
+        ->name('admin.gifts.store');
+
+    Route::put('/gifts/{gift}', [GiftController::class, 'update'])
+        ->name('admin.gifts.update');
+
+    Route::delete('/gifts/{gift}', [GiftController::class, 'destroy'])
+        ->name('admin.gifts.destroy');
+});
 require __DIR__.'/settings.php';

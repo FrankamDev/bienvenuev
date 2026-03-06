@@ -3,6 +3,7 @@ import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import type { BreadcrumbItem } from '@/types';
 import { useState } from 'react';
+import Gifts from './Admin/Gifts';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -69,6 +70,8 @@ export default function Dashboard(props: any) {
                         <p>
                             <strong>Par :</strong>{' '}
                             {gift.person?.name ?? '—'}
+                            <br />
+                            {gift.person?.email ?? '—'}
                         </p>
 
 
@@ -107,7 +110,9 @@ export default function Dashboard(props: any) {
                     </div>
                 </div>
             )}
+            <Gifts gifts={gifts}/>
 
+                    {/* <h2>je ne sais pas</h2> */}
         </AppLayout>
     );
 }
