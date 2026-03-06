@@ -2,10 +2,13 @@
 
 namespace Laravel\Fortify\Http\Controllers;
 
+use App\Models\Gift;
+use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Fortify\Contracts\RegisterResponse;
@@ -69,4 +72,40 @@ class RegisteredUserController extends Controller
 
         return app(RegisterResponse::class);
     }
+
+
+
+    public function quickRegisterAndReserve(Request $request)
+{
+    $validated = $request->validate([
+        'name'     => ['required', 'string', 'max:255'],
+        'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+        'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        'gift_id'  => ['required', 'exists:gifts,id'],
+    ]);
+
+    $user = User::create([
+        'name'     => $validated['name'],
+        'email'    => $validated['email'],
+        'password' => Hash::make($validated['password']),
+    ]);
+
+    event(new Registered($user));
+    // Auth::login($user);  ← optionnel : connecte automatiquement
+
+    // Réserve le cadeau
+    $gift = Gift::findOrFail($validated['gift_id']);
+
+    if ($gift->reserved) {
+        return back()->withErrors(['gift' => 'Ce cadeau a déjà été réservé.']);
+    }
+
+    $gift->update([
+        'reserved'    => true,
+        'reserved_by' => $user->id,
+    ]);
+
+    return redirect()->back()
+        ->with('success', "Merci {$user->name} ! Le cadeau « {$gift->name} » est réservé pour vous ❤️");
+}
 }
