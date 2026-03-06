@@ -150,7 +150,7 @@ export default function RSVP() {
              <div key={i} className="w-1.5 h-1.5 rounded-full bg-amber-200" />
            ))}
         </div>
-        <Countdown/>
+        
       </motion.div>
     </section>
   );

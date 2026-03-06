@@ -40,11 +40,11 @@ const events = [
     direction: "down"
   },
   {
-    time: "15:00",
-    title: "Bénédiction et Cérémonie",
-    desc: "Cérémonie officielle avec échange des vœux et bénédiction, célébrée dans la salle principale avec famille et proches.",
-    direction: "left"
-  },
+  time: "22:00",
+  title: "Soirée dansante",
+  desc: "Ouverture de la soirée festive avec musique, danse et ambiance conviviale pour célébrer ensemble ce moment spécial jusqu’au bout de la nuit.",
+  direction: "left"
+},
 ];
 const Programme = () => {
   const lineRef = useRef(null);

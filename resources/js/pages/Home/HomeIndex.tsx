@@ -1,6 +1,4 @@
 import React from 'react'
-
-// src/App.tsx
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
@@ -14,6 +12,7 @@ import CouplePhoto from './CouplePhoto';
 import { usePage } from '@inertiajs/react';
 import ListGift from '../Gifts/ListGift';
 import PartySection from './PartySection';
+import Countdown from './Countdown';
 
 const HomeIndex = () => {
     const {gifts} = usePage().props;
@@ -33,13 +32,14 @@ const HomeIndex = () => {
         className="relative z-10"
       >
         <Hero />
-        <LocalisationSection  />
         <Programme />
         <Details />
         <ListGift gifts={gifts}/>
         <PartySection/>
         <Colors/>
         <RSVP />
+        <LocalisationSection  />
+        <Countdown/>
         <CouplePhoto />
       </motion.div>
 
