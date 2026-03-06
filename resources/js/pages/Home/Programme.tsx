@@ -95,7 +95,7 @@ const Programme = () => {
         className="text-center mb-40"
       >
         <span className="font-serif-premium text-amber-700 tracking-[0.5em] text-xs uppercase mb-4 block">Timeline</span>
-        <h2 className="font-script text-7xl sm:text-9xl text-gray-800">Le Programme</h2>
+        <h2 className="font-script text-5xl sm:text-6xl text-gray-800">Le Programme</h2>
       </motion.div>
 
       <div className="max-w-6xl mx-auto relative">
