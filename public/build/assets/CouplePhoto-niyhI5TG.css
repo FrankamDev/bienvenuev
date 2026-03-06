@@ -1,0 +1,1 @@
+.film-grain{position:absolute;inset:0;opacity:.1;pointer-events:none;z-index:5}.text-shadow-premium{text-shadow:0 4px 15px rgba(0,0,0,.4)}.inner-frame{position:absolute;inset:40px;border:1px solid rgba(255,255,255,.2);pointer-events:none;z-index:10}@media(max-width:640px){.inner-frame{inset:20px}}
