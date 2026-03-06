@@ -423,22 +423,34 @@
 
 
 
-
 import { useForm, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gift, ChevronDown, Check, Loader2 } from 'lucide-react';
+import { Gift, ChevronDown, Check, Loader2, X, Sparkles, Heart } from 'lucide-react';
 
 export default function Home({ gifts: initialGifts }) {
   const [gifts, setGifts] = useState(initialGifts || []);
   const [selectedGiftId, setSelectedGiftId] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const { data, setData, post, processing, reset } = useForm({
-    name: '', email: '', password: 'password', password_confirmation: 'password', gift_id: null,
+    name: '',
+    email: '',
+    password: 'password',
+    password_confirmation: 'password',
+    gift_id: null,
   });
 
   const successMessage = usePage().props.success;
+
+  useEffect(() => {
+    if (successMessage) {
+      setShowSuccess(true);
+      const timer = setTimeout(() => setShowSuccess(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
 
   const handleReserve = (gift) => {
     setSelectedGiftId(gift.id);
@@ -458,72 +470,110 @@ export default function Home({ gifts: initialGifts }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] py-10 px-4 max-w-lg mx-auto font-sans">
+    <div className="min-h-screen bg-[#FAFAFA] py-12 px-4 font-sans text-slate-800">
+      <div className="max-w-md mx-auto">
 
-      {/* Header Minimaliste */}
-      <div className="text-center mb-8">
-        <h1 className="text-2xl font-serif italic text-slate-800">Nos petits présents</h1>
-        <p className="text-slate-400 text-[10px] uppercase tracking-[0.2em] mt-2">Liste de Mariage</p>
-      </div>
+        {/* En-tête minimaliste */}
+        <div className="text-center mb-12">
+          <Heart className="mx-auto text-amber-500 mb-4 opacity-50" size={24} />
+          <h1 className="text-2xl font-serif italic mb-2">Nos petits présents</h1>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-slate-400">Liste de mariage</p>
+        </div>
 
-      {/* Accordéon compact */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full px-6 py-4 flex items-center justify-between text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors"
-        >
-          <span>Voir la liste ({gifts.length})</span>
-          <motion.div animate={{ rotate: isExpanded ? 180 : 0 }}>
-            <ChevronDown size={16} className="text-slate-400" />
-          </motion.div>
-        </button>
+        {/* Accordéon élégant */}
+        <div className="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-slate-100 overflow-hidden">
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="w-full px-6 py-5 flex items-center justify-between text-xs font-bold uppercase tracking-widest hover:bg-slate-50 transition-all"
+          >
+            <span>Voir la liste ({gifts.length})</span>
+            <motion.div animate={{ rotate: isExpanded ? 180 : 0 }}>
+              <ChevronDown size={16} className="text-slate-400" />
+            </motion.div>
+          </button>
 
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                className="px-2 pb-2"
+              >
+                <div className="space-y-1">
+                  {gifts.length > 0 ? gifts.map((gift) => (
+                    <div key={gift.id} className="flex items-center justify-between px-4 py-4 bg-slate-50 rounded-2xl">
+                      <span className="text-sm text-slate-700 truncate mr-4">{gift.name}</span>
+                      <button
+                        onClick={() => handleReserve(gift)}
+                        className="text-[9px] font-bold uppercase tracking-widest bg-slate-900 text-white px-5 py-2.5 rounded-xl hover:bg-amber-600 transition-all active:scale-95"
+                      >
+                        Offrir
+                      </button>
+                    </div>
+                  )) : <p className="text-center p-6 text-xs text-slate-400 italic">Tous réservés. Merci !</p>}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Modal "Haute Couture" */}
         <AnimatePresence>
-          {isExpanded && (
+          {selectedGiftId && (
+            <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+              <motion.div
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                onClick={() => setSelectedGiftId(null)}
+                className="absolute inset-0 bg-slate-900/20 backdrop-blur-sm"
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                className="relative bg-white w-full max-w-[320px] rounded-[2rem] p-8 shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-slate-100"
+              >
+                <button onClick={() => setSelectedGiftId(null)} className="absolute top-5 right-5 text-slate-300 hover:text-slate-600 transition-colors">
+                  <X size={18}/>
+                </button>
+                <div className="text-center mb-6">
+                  <h2 className="text-lg font-serif text-slate-800">Votre attention</h2>
+                  <p className="text-[10px] uppercase tracking-widest text-slate-400 mt-1">Réservation cadeau</p>
+                </div>
+                <form onSubmit={handleQuickRegister} className="space-y-3">
+                  <input type="text" placeholder="Ex: Frank Kamgang" value={data.name} onChange={e => setData('name', e.target.value)} className="w-full text-xs p-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-amber-500/20 transition-all" required />
+                  <input type="email" placeholder="Ex: frankamdev@gmail.com" value={data.email} onChange={e => setData('email', e.target.value)} className="w-full text-xs p-3 bg-slate-50 border border-slate-100 rounded-xl outline-none focus:ring-2 focus:ring-amber-500/20 transition-all" required />
+                  <button type="submit" disabled={processing} className="w-full py-3 mt-2 text-[10px] font-bold uppercase tracking-[0.2em] bg-slate-900 text-white rounded-xl hover:bg-amber-600 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                    {processing ? <Loader2 className="animate-spin" size={14}/> : "Valider"}
+                  </button>
+                </form>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+
+        {/* Success Toast Premium */}
+        <AnimatePresence>
+          {showSuccess && (
             <motion.div
-              initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }}
-              className="px-2 pb-2"
+              initial={{ opacity: 0, y: 20, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.9 }}
+              className="fixed bottom-8 left-0 right-0 mx-auto z-[70] w-max px-6"
             >
-              <div className="space-y-1">
-                {gifts.map((gift) => (
-                  <div key={gift.id} className="flex items-center justify-between px-4 py-3 bg-slate-50 rounded-xl">
-                    <span className="text-sm text-slate-700 truncate mr-4">{gift.name}</span>
-                    <button
-                      onClick={() => handleReserve(gift)}
-                      className="text-[10px] font-bold uppercase tracking-widest bg-slate-900 text-white px-4 py-2 rounded-lg hover:bg-[#B89D64] transition-all"
-                    >
-                      Choisir
-                    </button>
-                  </div>
-                ))}
+              <div className="bg-white text-slate-800 py-3 px-6 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.15)] flex items-center gap-3 border border-slate-100">
+                <div className="bg-emerald-100 text-emerald-600 p-1 rounded-full">
+                  <Check size={14} strokeWidth={3} />
+                </div>
+                <span className="text-[11px] font-medium tracking-wide">
+                  Cadeau réservé avec succès
+                </span>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-
-      {/* Modal épurée */}
-      <AnimatePresence>
-        {selectedGiftId && (
-          <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/20 backdrop-blur-sm" onClick={() => setSelectedGiftId(null)} />
-
-            <motion.div
-              initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
-              className="bg-white w-full rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl relative z-10"
-            >
-              <h2 className="text-lg font-serif mb-6 text-center">Votre participation</h2>
-              <form onSubmit={handleQuickRegister} className="space-y-3">
-                <input type="text" placeholder="Nom" value={data.name} onChange={e => setData('name', e.target.value)} className="w-full text-sm p-3 bg-slate-50 border-none rounded-xl" required />
-                <input type="email" placeholder="Email" value={data.email} onChange={e => setData('email', e.target.value)} className="w-full text-sm p-3 bg-slate-50 border-none rounded-xl" required />
-                <button type="submit" className="w-full py-3 text-xs font-bold uppercase tracking-widest bg-emerald-600 text-white rounded-xl">
-                  {processing ? <Loader2 className="animate-spin mx-auto" size={16}/> : "Valider"}
-                </button>
-              </form>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
