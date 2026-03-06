@@ -11,7 +11,7 @@ interface PartyStep {
 const PartySection: React.FC = () => {
   const steps: PartyStep[] = [
     {
-      time: "19:00",
+      time: "22:00",
       title: "Cocktail de Bienvenue",
       description: "Rafraîchissements et amuses-bouches sur la terrasse.",
       icon: <GlassWater className="w-6 h-6" />,
@@ -38,7 +38,7 @@ const PartySection: React.FC = () => {
 
   return (
     <section className="relative py-20 px-6 bg-[#faf9f6] overflow-hidden">
-      
+
       <div className="absolute top-0 left-1/2 -translate-x-1/2 opacity-10 pointer-events-none">
         <span className="text-[15rem] font-serif">Party</span>
       </div>
@@ -50,13 +50,13 @@ const PartySection: React.FC = () => {
           </h2>
           <div className="w-24 h-1 bg-[#d4af37] mx-auto mb-6"></div>
           <p className="text-gray-600 italic font-light">
-            Célébrons ensemble ce nouveau chapitre à partir de <span className="font-semibold">19h00</span>.
+            Célébrons ensemble ce nouveau chapitre à partir de <span className="font-semibold">22h00</span>.
           </p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2">
           {steps.map((step, index) => (
-            <div 
+            <div
               key={index}
               className="group p-8 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-b-4 border-b-transparent hover:border-b-[#d4af37]"
             >

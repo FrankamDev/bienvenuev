@@ -486,7 +486,7 @@ export default function Home({ gifts: initialGifts }) {
             onClick={() => setIsExpanded(!isExpanded)}
             className="w-full px-6 py-5 flex items-center justify-between text-xs font-bold uppercase tracking-widest hover:bg-slate-50 transition-all"
           >
-            <span>Voir la liste ({gifts.length})</span>
+            <span>cliquez Voir la liste des cadeaux ({gifts.length})</span>
             <motion.div animate={{ rotate: isExpanded ? 180 : 0 }}>
               <ChevronDown size={16} className="text-slate-400" />
             </motion.div>
